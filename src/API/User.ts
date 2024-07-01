@@ -1,6 +1,6 @@
 import axios from "axios";
-import { RegisterForm } from "../Register/useRegisterForm";
-import { LoginForm } from "../Login/useLoginForm";
+import { RegisterForm } from "../components/Register/useRegisterForm";
+import { LoginForm } from "../components/Login/useLoginForm";
 
 axios.defaults.baseURL = "http://127.0.0.1:8000";
 

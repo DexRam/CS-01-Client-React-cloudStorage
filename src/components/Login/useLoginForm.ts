@@ -1,6 +1,6 @@
 import { useReducer, useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { validateUsername, validatePassword } from "../Additional/validators";
-import { loginUser } from "../API/User";
+import { loginUser } from "../../API/User";
 
 export interface LoginForm {
     username: string;

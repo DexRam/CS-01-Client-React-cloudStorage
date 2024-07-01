@@ -1,6 +1,6 @@
 import { useReducer, useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { validateUsername, validateFullname, validateEmail, validatePassword } from "../Additional/validators";
-import { createUser } from "../API/User";
+import { createUser } from "../../API/User";
 
 export interface RegisterForm {
     username: string;
