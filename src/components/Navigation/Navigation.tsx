@@ -12,6 +12,14 @@ interface Route {
     label: string;
 }
 
+const routesConfig: Route[] = [
+    { path: "/", element: <Home />, label: "Home" },
+    { path: "/register", element: <Register />, label: "Register" },
+    { path: "/login", element: <Login />, label: "Login" },
+    { path: "/fileManagement", element: <FileManagement />, label: "File Management" },
+    { path: "/admin", element: <Admin />, label: "Admin" },
+];
+
 const Navigation = () => {
     const isAuthenticated = useAuth();
     const navigate = useNavigate();
@@ -19,21 +27,21 @@ const Navigation = () => {
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        window.dispatchEvent(new Event('storage'));
         navigate('/login');
     };
 
-    const routes: Route[] = [
-        { path: "/", element: <Home />, label: "Home" },
-        !isAuthenticated && { path: "/register", element: <Register />, label: "Register" },
-        !isAuthenticated && { path: "/login", element: <Login />, label: "Login" },
-        { path: "/fileManagement", element: <FileManagement />, label: "File Management" },
-        { path: "/admin", element: <Admin />, label: "Admin" },
-    ].filter((route): route is Route => route !== false);
+    const filteredRoutes = routesConfig.filter(route => {
+        if (isAuthenticated) {
+            return route.path !== "/register" && route.path !== "/login" && route.path !== "/";
+        }
+        return true;
+    });
 
     return (
-        <nav className="flex justify-center items-center w-full px-4 mt-2 mb-4 ">
-            <div>
-                {routes.map(({ path, label }) => (
+        <nav className="flex justify-center items-center w-full px-4 mt-2 mb-4">
+            <div className="flex">
+                {filteredRoutes.map(({ path, label }) => (
                     <NavLink
                         key={path}
                         to={path}
@@ -51,7 +59,7 @@ const Navigation = () => {
             {isAuthenticated && (
                 <button
                     onClick={handleLogout}
-                    className="text-red-500 hover:text-red-700"
+                    className="mx-2 text-red-500 hover:text-red-700"
                 >
                     Log Out
                 </button>

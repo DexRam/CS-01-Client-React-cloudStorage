@@ -1,4 +1,5 @@
 import { FC } from "react";
+import { useAuthRedirect } from "../../hooks/useAuthRedirect";
 import { ContentContainer, CardContainer, FormContainer } from "../UIComponents/Containers";
 import { CardHeader } from "../UIComponents/Cards";
 import { InputField } from "../UIComponents/InputFields";
@@ -6,6 +7,9 @@ import { ActionSubmit } from "../UIComponents/Actions";
 import { useRegisterForm } from "./useRegisterForm";
 
 const Register: FC = () => {
+
+  useAuthRedirect('/fileManagement');
+
   const {
     state: { username, fullname: fullname, email, password, errors, isFormValid },
     passwordVisible,
@@ -20,6 +24,7 @@ const Register: FC = () => {
     { label: "Email", type: "text", value: email, onChange: handleFieldChange("email"), error: errors.email },
     { label: "Password", type: "password", value: password, onChange: handleFieldChange("password"), error: errors.password, passwordVisible, setPasswordVisible }
   ];
+
 
   return (
     <ContentContainer>

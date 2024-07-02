@@ -1,9 +1,11 @@
 import { FC } from "react";
+import { useAuthRedirect } from "../../hooks/useAuthRedirect";
 import { ContentContainer, ActionContainer, CardContainer } from "../UIComponents/Containers";
 import { CardHeader, CardBody } from "../UIComponents/Cards";
 import { ActionLink } from "../UIComponents/Actions";
 
 const Home: FC = () => {
+  useAuthRedirect('/fileManagement');
   return (
     <ContentContainer>
       <CardContainer>

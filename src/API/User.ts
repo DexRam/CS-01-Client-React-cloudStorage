@@ -44,18 +44,26 @@ axios.interceptors.response.use(
 );
 
 export const createUser = async (state: RegisterForm) => {
-    const response = await axios.post('/api/user/', state);
-    console.log(response.data);
-    return response.data;
+    try {
+        const response = await axios.post('/api/user/', state);
+        if (response.status === 200) {
+            loginUser(state);
+        }
+    } catch (error) {
+        console.error("Login failed:", error);
+        return null;
+    }
+
 };
 
 export const loginUser = async (state: LoginForm) => {
-    console.log("state");
-    console.log(state);
-    const response = await axios.post('/api/user/login/', state);
-    localStorage.setItem('accessToken', response.data.access);
-    localStorage.setItem('refreshToken', response.data.refresh);
-    console.log("response");
-    console.log(response.data);
-    return response.data;
+    try {
+        const response = await axios.post('/api/user/login/', state);
+        localStorage.setItem('accessToken', response.data.access);
+        localStorage.setItem('refreshToken', response.data.refresh);
+        window.dispatchEvent(new Event('storage'));
+    } catch (error) {
+        console.error("Login failed:", error);
+        return null;
+    }
 };
