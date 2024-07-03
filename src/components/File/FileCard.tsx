@@ -9,7 +9,7 @@ const FileCard: FC<FileCardProps> = ({
   file,
   isSelected,
   showCheckbox,
-  onToggleSelect,
+  // onToggleSelect,
   onDownload,
   onRename,
   onDelete,
@@ -17,7 +17,7 @@ const FileCard: FC<FileCardProps> = ({
 }) => {
   const handleCardClick = (event: MouseEvent) => {
     if (["BUTTON", "INPUT"].includes((event.target as HTMLElement).tagName)) return;
-    onToggleSelect(file.fileId);
+    // onToggleSelect(file.Id);
   };
 
   const actions = [
@@ -27,29 +27,29 @@ const FileCard: FC<FileCardProps> = ({
     { label: "Delete", handler: onDelete, color: "bg-red-500", hoverColor: "bg-red-600" },
   ];
 
-  const fileDetails = [
-    `Size: ${file.fileSize} bytes`,
-    `Created: ${new Date(file.creationDate).toLocaleString()}`,
-    `Modified: ${new Date(file.modificationDate).toLocaleString()}`,
-    `Access: ${file.accessPermissions}`,
-    `Tags: ${file.metadata.tags.join(", ")}`,
-    `Description: ${file.metadata.description}`,
-  ];
+  // const fileDetails = [
+  //   `Size: ${file.fileSize} bytes`,
+  //   `Created: ${new Date(file.creationDate).toLocaleString()}`,
+  //   `Modified: ${new Date(file.modificationDate).toLocaleString()}`,
+  //   `Access: ${file.accessPermissions}`,
+  //   `Tags: ${file.metadata.tags.join(", ")}`,
+  //   `Description: ${file.metadata.description}`,
+  // ];
 
   return (
     <CardContainer isSelected={isSelected} onClick={handleCardClick}>
-      {showCheckbox && (
-        <Checkbox isChecked={isSelected} onChange={() => onToggleSelect(file.fileId)} />
-      )}
-      <CardHeader title={file.fileName} />
-      {fileDetails.map((detail, index) => (
+      {/* {showCheckbox && (
+        <Checkbox isChecked={isSelected} onChange={() => onToggleSelect(file.Id)} />
+      )} */}
+      <CardHeader title={file.name} />
+      {/* {fileDetails.map((detail, index) => (
         <CardBody key={index} text={detail} />
-      ))}
+      ))} */}
       <ActionContainer>
         {actions.map(({ label, handler, color, hoverColor }, index) => (
           <ActionButton
             key={index}
-            onClick={() => handler(file.fileId)}
+            onClick={() => handler(file.id)}
             color={color}
             hoverColor={hoverColor}
           >

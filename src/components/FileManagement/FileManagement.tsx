@@ -1,4 +1,5 @@
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
+import { getUserFiles } from "../../API/Files";
 import {
   handleDownload,
   handleRename,
@@ -8,23 +9,30 @@ import {
 import { ContentContainer, ActionContainer } from "../UIComponents/Containers";
 import { ActionButton } from "../UIComponents/Actions";
 import FileCard from "../File/FileCard";
-import { files } from "../Additional/devData";
 
 const FileManagement: FC = () => {
-
+  const [files, setFiles] = useState<any[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<Set<number>>(new Set());
 
-  const toggleFileSelection = (fileId: number) => {
-    setSelectedFiles((prevSelectedFiles) => {
-      const updatedSelection = new Set(prevSelectedFiles);
-      if (updatedSelection.has(fileId)) {
-        updatedSelection.delete(fileId);
-      } else {
-        updatedSelection.add(fileId);
-      }
-      return updatedSelection;
-    });
-  };
+  useEffect(() => {
+    const fetchFiles = async () => {
+      const files = await getUserFiles();
+      setFiles(files);
+    };
+    fetchFiles();
+  }, []);
+
+  // const toggleFileSelection = (fileId: number) => {
+  //   setSelectedFiles((prevSelectedFiles) => {
+  //     const updatedSelection = new Set(prevSelectedFiles);
+  //     if (updatedSelection.has(fileId)) {
+  //       updatedSelection.delete(fileId);
+  //     } else {
+  //       updatedSelection.add(fileId);
+  //     }
+  //     return updatedSelection;
+  //   });
+  // };
 
   const handleAction = (action: (fileId: number) => void) => {
     selectedFiles.forEach(action);
@@ -58,10 +66,10 @@ const FileManagement: FC = () => {
       <div className="flex flex-wrap">
         {files.map((file) => (
           <FileCard
-            key={file.fileId}
+            key={file.id}
             file={file}
-            isSelected={selectedFiles.has(file.fileId)}
-            onToggleSelect={toggleFileSelection}
+            isSelected={selectedFiles.has(file.Id)}
+            // onToggleSelect={toggleFileSelection}
             onDownload={handleDownload}
             onRename={handleRename}
             onDelete={handleDelete}
