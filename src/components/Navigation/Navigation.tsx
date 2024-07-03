@@ -35,6 +35,9 @@ const Navigation = () => {
         if (isAuthenticated) {
             return route.path !== "/register" && route.path !== "/login" && route.path !== "/";
         }
+        if (!isAuthenticated) {
+            return route.path !== "/fileManagement" && route.path !== "/admin";
+        }
         return true;
     });
 
@@ -69,3 +72,4 @@ const Navigation = () => {
 };
 
 export default Navigation;
+

@@ -7,8 +7,14 @@ export const useAuthRedirect = (target: string) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (isAuthenticated) {
+        const shouldRedirect = isAuthenticated && target !== '/';
+        const shouldNavigateToHome = !isAuthenticated && target === '/';
+
+        if (shouldRedirect) {
             navigate(target);
+        } else if (shouldNavigateToHome) {
+            navigate('/');
         }
     }, [isAuthenticated, navigate, target]);
 };
+

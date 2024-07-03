@@ -6,7 +6,7 @@ interface File {
     creationDate: string;
     modificationDate: string;
     filePath: string;
-    fileOwner: string;
+    fileOwner: number;
     accessPermissions: string;
     metadata: {
         tags: string[];

@@ -11,6 +11,7 @@ import FileCard from "../File/FileCard";
 import { files } from "../Additional/devData";
 
 const FileManagement: FC = () => {
+
   const [selectedFiles, setSelectedFiles] = useState<Set<number>>(new Set());
 
   const toggleFileSelection = (fileId: number) => {

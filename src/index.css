@@ -2,46 +2,44 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes rainbow-border {
+@keyframes rainbow-shadow {
   0% {
-    border-color: red;
+    box-shadow: 0 0 30px red;
   }
 
   14% {
-    border-color: orange;
+    box-shadow: 0 0 30px orange;
   }
 
   28% {
-    border-color: yellow;
+    box-shadow: 0 0 30px yellow;
   }
 
   42% {
-    border-color: green;
+    box-shadow: 0 0 30px green;
   }
 
   57% {
-    border-color: blue;
+    box-shadow: 0 0 30px blue;
   }
 
   71% {
-    border-color: indigo;
+    box-shadow: 0 0 30px indigo;
   }
 
   85% {
-    border-color: violet;
+    box-shadow: 0 0 30px violet;
   }
 
   100% {
-    border-color: red;
+    box-shadow: 0 0 30px red;
   }
 }
 
-.rainbow-border:hover {
-  border-width: 6px;
-  animation: rainbow-border 5s linear infinite;
+.rainbow-shadow:hover {
+  animation: rainbow-shadow 5s linear infinite;
 }
 
-.rainbow-border-holded {
-  border-width: 6px;
-  animation: rainbow-border 5s linear infinite;
+.rainbow-shadow-holded {
+  animation: rainbow-shadow 5s linear infinite;
 }
