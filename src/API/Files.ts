@@ -1,22 +1,62 @@
-import axios from "axios";
-
-axios.defaults.baseURL = "http://127.0.0.1:8000";
-
-axios.interceptors.request.use(
-    async config => {
-        const token = localStorage.getItem('accessToken');
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-    },
-    error => {
-        return Promise.reject(error);
-    }
-);
-
+import axios from "./axiosConfig";
 
 export const getUserFiles = async () => {
     const response = await axios.post("/api/file/userFiles/");
     return response.data;
+}
+
+export const uploadFiles = async (files: File[]) => {
+    try {
+        const uploadPromises = files.map(file => {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('name', file.name);
+
+            return axios.post('/api/file/', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+        });
+
+        const responses = await Promise.all(uploadPromises);
+        return responses.map(response => response.data);
+    } catch (error) {
+        console.error("File upload failed:", error);
+        return null;
+    }
+}
+
+export const downloadFile = async (fileId: string) => {
+    console.log(`Downloading file ${fileId} `)
+}
+
+export const renameFile = async (fileId: string, newName: string) => {
+    try {
+        const response = await axios.patch(`/api/file/${fileId}/`, { name: newName });
+        return response.data;
+    } catch (error) {
+        console.error("File rename failed:", error);
+        return null;
+    }
+}
+
+export const shareFile = async (fileId: string, userId: string) => {
+    try {
+        const response = await axios.post(`/api/file/${fileId}/share/`, { user_id: userId });
+        return response.data;
+    } catch (error) {
+        console.error("File sharing failed:", error);
+        return null;
+    }
+}
+
+export const deleteFile = async (fileId: string) => {
+    try {
+        const response = await axios.delete(`/api/file/${fileId}/`);
+        return response.data;
+    } catch (error) {
+        console.error("File deletion failed:", error);
+        return null;
+    }
 }

@@ -9,7 +9,7 @@ const FileCard: FC<FileCardProps> = ({
   file,
   isSelected,
   showCheckbox,
-  // onToggleSelect,
+  onToggleSelect,
   onDownload,
   onRename,
   onDelete,
@@ -17,7 +17,7 @@ const FileCard: FC<FileCardProps> = ({
 }) => {
   const handleCardClick = (event: MouseEvent) => {
     if (["BUTTON", "INPUT"].includes((event.target as HTMLElement).tagName)) return;
-    // onToggleSelect(file.Id);
+    onToggleSelect(file.id);
   };
 
   const actions = [
@@ -38,9 +38,9 @@ const FileCard: FC<FileCardProps> = ({
 
   return (
     <CardContainer isSelected={isSelected} onClick={handleCardClick}>
-      {/* {showCheckbox && (
-        <Checkbox isChecked={isSelected} onChange={() => onToggleSelect(file.Id)} />
-      )} */}
+      {showCheckbox && (
+        <Checkbox isChecked={isSelected} onChange={() => onToggleSelect(file.id)} />
+      )}
       <CardHeader title={file.name} />
       {/* {fileDetails.map((detail, index) => (
         <CardBody key={index} text={detail} />
