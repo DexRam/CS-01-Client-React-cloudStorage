@@ -4,8 +4,11 @@ import { LoginForm } from "../components/Login/useLoginForm";
 
 export const createUser = async (state: RegisterForm) => {
     try {
+        console.log("Register")
+        console.log(state)
         const response = await axios.post('/api/user/', state);
-        if (response.status === 200) {
+        console.log(response)
+        if (response.status === 201) {
             loginUser(state);
         }
     } catch (error) {
@@ -17,10 +20,13 @@ export const createUser = async (state: RegisterForm) => {
 
 export const loginUser = async (state: LoginForm) => {
     try {
+        console.log("Login")
+        console.log(state)
         const response = await axios.post('/api/user/login/', state);
         localStorage.setItem('accessToken', response.data.access);
         localStorage.setItem('refreshToken', response.data.refresh);
         window.dispatchEvent(new Event('storage'));
+        console.log(response)
     } catch (error) {
         console.error("Login failed:", error);
         return null;

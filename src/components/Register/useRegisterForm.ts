@@ -85,7 +85,6 @@ export const useRegisterForm = () => {
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-        console.log(state);
         if (state.isFormValid) {
             createUser(state);
         }

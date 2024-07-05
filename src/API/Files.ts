@@ -27,11 +27,11 @@ export const uploadFiles = async (files: FileList) => {
     }
 }
 
-export const downloadFile = async (fileId: string) => {
+export const downloadFile = async (fileId: number) => {
     console.log(`Downloading file ${fileId} `)
 }
 
-export const renameFile = async (fileId: string, newName: string) => {
+export const renameFile = async (fileId: number, newName: string) => {
     try {
         const response = await axios.patch(`/api/file/${fileId}/`, { name: newName });
         return response.data;
@@ -41,9 +41,9 @@ export const renameFile = async (fileId: string, newName: string) => {
     }
 }
 
-export const shareFile = async (fileId: string, userId: string) => {
+export const shareFile = async (fileId: number, username: string) => {
     try {
-        const response = await axios.post(`/api/file/${fileId}/share/`, { user_id: userId });
+        const response = await axios.post(`/api/file/${fileId}/share/`, { username: username });
         return response.data;
     } catch (error) {
         console.error("File sharing failed:", error);
@@ -51,7 +51,7 @@ export const shareFile = async (fileId: string, userId: string) => {
     }
 }
 
-export const deleteFile = async (fileId: string) => {
+export const deleteFile = async (fileId: number) => {
     try {
         const response = await axios.delete(`/api/file/${fileId}/`);
         return response.data;

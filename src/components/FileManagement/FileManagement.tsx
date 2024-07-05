@@ -1,9 +1,7 @@
 import { FC, useEffect, useState } from "react";
-import { getUserFiles, uploadFiles } from "../../API/Files";
+import { getUserFiles, uploadFiles, renameFile, deleteFile } from "../../API/Files";
 import {
   handleDownload,
-  handleRename,
-  handleDelete,
   handleShare,
 } from "../File/FileHandling";
 import { ContentContainer, ActionContainer } from "../UIComponents/Containers";
@@ -25,11 +23,19 @@ const FileManagement: FC = () => {
   }, []);
 
   const handleFileUpload = async (files: FileList) => {
-    const uploadResult = await uploadFiles(files);
-    if (uploadResult) {
-      fetchFiles()
-    }
+    await uploadFiles(files);
+    fetchFiles()
   };
+
+  const handleRename = async (fileid: number) => {
+    await renameFile(fileid, "newName");
+    fetchFiles()
+  }
+
+  const handleDelete = async (fileid: number) => {
+    await deleteFile(fileid);
+    fetchFiles()
+  }
 
   const toggleFileSelection = (fileId: number) => {
     setSelectedFiles((prevSelectedFiles) => {
