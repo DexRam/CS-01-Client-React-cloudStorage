@@ -5,9 +5,9 @@ export const getUserFiles = async () => {
     return response.data;
 }
 
-export const uploadFiles = async (files: File[]) => {
+export const uploadFiles = async (files: FileList) => {
     try {
-        const uploadPromises = files.map(file => {
+        const uploadPromises = Array.from(files).map(file => {
             const formData = new FormData();
             formData.append('file', file);
             formData.append('name', file.name);

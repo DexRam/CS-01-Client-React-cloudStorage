@@ -1,12 +1,11 @@
 import { FC, useEffect, useState } from "react";
-import { getUserFiles } from "../../API/Files";
+import { getUserFiles, uploadFiles } from "../../API/Files";
 import {
   handleDownload,
   handleRename,
   handleDelete,
   handleShare,
 } from "../File/FileHandling";
-import { uploadFiles } from "../../API/Files";
 import { ContentContainer, ActionContainer } from "../UIComponents/Containers";
 import { ActionButton } from "../UIComponents/Actions";
 import Dropzone from "../File/Dropzone";
@@ -16,13 +15,21 @@ const FileManagement: FC = () => {
   const [files, setFiles] = useState<any[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<Set<number>>(new Set());
 
+  const fetchFiles = async () => {
+    const files = await getUserFiles();
+    setFiles(files);
+  };
+
   useEffect(() => {
-    const fetchFiles = async () => {
-      const files = await getUserFiles();
-      setFiles(files);
-    };
     fetchFiles();
   }, []);
+
+  const handleFileUpload = async (files: FileList) => {
+    const uploadResult = await uploadFiles(files);
+    if (uploadResult) {
+      fetchFiles()
+    }
+  };
 
   const toggleFileSelection = (fileId: number) => {
     setSelectedFiles((prevSelectedFiles) => {
@@ -56,9 +63,8 @@ const FileManagement: FC = () => {
     },
   ];
 
-
   return (
-    <Dropzone onFilesAdded={(files: FileList) => uploadFiles(files)}>
+    <Dropzone onFilesAdded={handleFileUpload}>
       <ContentContainer>
         <ActionContainer>
           {actionButtons.map(({ label, onClick, color, hoverColor }, index) => (
