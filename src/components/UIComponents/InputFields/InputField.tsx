@@ -5,7 +5,7 @@ interface InputFieldProps {
   type: string;
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-  error: string;
+  error?: string;
   required?: boolean;
   passwordVisible?: boolean;
   setPasswordVisible?: (visible: boolean) => void;

@@ -11,6 +11,7 @@ import FileCard from "../File/FileCard";
 
 const FileManagement: FC = () => {
   const [files, setFiles] = useState<any[]>([]);
+
   const [selectedFiles, setSelectedFiles] = useState<Set<number>>(new Set());
 
   const fetchFiles = async () => {
@@ -27,8 +28,8 @@ const FileManagement: FC = () => {
     fetchFiles()
   };
 
-  const handleRename = async (fileid: number) => {
-    await renameFile(fileid, "newName");
+  const handleRename = async (fileid: number, newName: string) => {
+    await renameFile(fileid, newName);
     fetchFiles()
   }
 

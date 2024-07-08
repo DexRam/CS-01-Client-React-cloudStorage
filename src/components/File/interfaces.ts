@@ -9,7 +9,7 @@ interface FileCardProps {
     showCheckbox: boolean;
     onToggleSelect: (fileId: number) => void;
     onDownload: (fileId: number) => void;
-    onRename: (fileId: number) => void;
+    onRename: (fileId: number, newName: string) => void;
     onDelete: (fileId: number) => void;
     onShare: (fileId: number) => void;
 }
