@@ -1,5 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { usePermissions } from "../../contexts/PermissionsContext";
 import { Home } from "../Home";
 import { Register } from "../Register";
 import { Login } from "../Login";
@@ -22,6 +23,7 @@ const routesConfig: Route[] = [
 
 const Navigation = () => {
     const isAuthenticated = useAuth();
+    const { isAdmin } = usePermissions();
     const navigate = useNavigate();
 
     const handleLogout = () => {
@@ -33,6 +35,9 @@ const Navigation = () => {
 
     const filteredRoutes = routesConfig.filter(route => {
         if (isAuthenticated) {
+            if (!isAdmin && route.path === "/admin") {
+                return false;
+            }
             return route.path !== "/register" && route.path !== "/login" && route.path !== "/";
         }
         if (!isAuthenticated) {
@@ -72,4 +77,3 @@ const Navigation = () => {
 };
 
 export default Navigation;
-

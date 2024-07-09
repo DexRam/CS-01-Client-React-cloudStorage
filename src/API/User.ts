@@ -32,3 +32,17 @@ export const loginUser = async (state: LoginForm) => {
         return null;
     }
 };
+
+export const getPermissions = async (token: string) => {
+    try {
+        const response = await axios.get('/api/user/me/', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        return response.data.isAdmin;
+    } catch (error) {
+        console.error("Get permissions failed:", error);
+        return null;
+    }
+}
