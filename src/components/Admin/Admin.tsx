@@ -1,5 +1,6 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { SearchBar } from '../SearchBar';
+import { getUsers } from '../../API/User';
 import { deleteUser, addUser } from '../User/UserHandling';
 import {
   handleDownload,
@@ -11,17 +12,27 @@ import { User } from '../User/interfaces';
 import UserCard from '../User/UserCard';
 import { ContentContainer, ActionContainer } from "../UIComponents/Containers";
 import { ActionButton } from "../UIComponents/Actions";
-import { Users, files } from '../Additional/devData';
+// import { Users, files } from '../Additional/devData';
 
 const Admin: FC = () => {
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
-  const [users, setUsers] = useState<User[]>(Users);
+  const [users, setUsers] = useState<User[]>([]);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      const usersData = await getUsers();
+      setUsers(usersData);
+    };
+
+    fetchUsers();
+  }, []);
+
 
   const handleUserClick = (userId: number) => {
     setSelectedUserId(userId === selectedUserId ? null : userId);
   };
 
-  const getUserFiles = (userId: number) => files.filter((file) => file.fileOwner === userId);
+  // const getUserFiles = (userId: number) => files.filter((file) => file.fileOwner === userId);
 
   const toggleUserRole = (userId: number) => {
     setUsers((prevUsers) =>
@@ -65,7 +76,7 @@ const Admin: FC = () => {
           onUserClick={handleUserClick}
           onDeleteUser={handleDeleteUser}
           onToggleUserRole={toggleUserRole}
-          files={getUserFiles(user.userId)}
+          files={"There will be files"}
           onDownload={handleDownload}
           onRename={handleRename}
           onDelete={handleDelete}

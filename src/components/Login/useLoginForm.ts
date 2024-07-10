@@ -65,10 +65,13 @@ export const useLoginForm = () => {
         });
     };
 
-    const handleSubmit = (event: FormEvent) => {
+    const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         if (state.isFormValid) {
-            loginUser(state)
+            const loginResult = await loginUser(state)
+            if (loginResult) {
+                alert(loginResult);
+            }
         }
     };
 

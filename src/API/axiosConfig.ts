@@ -32,8 +32,8 @@ axios.interceptors.response.use(
                     localStorage.setItem('accessToken', data.access);
                     axios.defaults.headers.Authorization = `Bearer ${data.access}`;
                     return axios(originalRequest);
-                } catch (err) {
-                    console.error(err);
+                } catch (error) {
+                    console.error(error);
                 }
             }
         }

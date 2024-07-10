@@ -15,7 +15,7 @@ interface UserCardProps {
     onUserClick: (userId: number) => void;
     onDeleteUser: (userId: number) => void;
     onToggleUserRole: (userId: number) => void;
-    files: File[];
+    files: File[] | any;
     onDownload: (fileId: number) => void;
     onRename: (fileId: number) => void;
     onDelete: (fileId: number) => void;

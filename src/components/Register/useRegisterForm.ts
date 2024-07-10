@@ -83,12 +83,16 @@ export const useRegisterForm = () => {
         });
     };
 
-    const handleSubmit = (event: FormEvent) => {
+    const handleSubmit = async (event: FormEvent) => {
         event.preventDefault();
         if (state.isFormValid) {
-            createUser(state);
+            const registerResult = await createUser(state);
+            if (registerResult) {
+                alert(registerResult);
+            }
         }
     };
+
 
     return {
         state,

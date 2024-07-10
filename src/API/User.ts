@@ -12,10 +12,9 @@ export const createUser = async (state: RegisterForm) => {
             loginUser(state);
         }
     } catch (error) {
-        console.error("Login failed:", error);
-        return null;
+        const errorMessage = error || "Registration failed";
+        return errorMessage;
     }
-
 };
 
 export const loginUser = async (state: LoginForm) => {
@@ -28,21 +27,28 @@ export const loginUser = async (state: LoginForm) => {
         window.dispatchEvent(new Event('storage'));
         console.log(response)
     } catch (error) {
-        console.error("Login failed:", error);
-        return null;
+        const errorMessage = error || "Login failed";
+        return errorMessage;
     }
 };
 
-export const getPermissions = async (token: string) => {
+export const getPermissions = async () => {
     try {
         const response = await axios.get('/api/user/me/', {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
         });
         return response.data.isAdmin;
     } catch (error) {
         console.error("Get permissions failed:", error);
+        return null;
+    }
+}
+
+export const getUsers = async () => {
+    try {
+        const response = await axios.get('/api/user/');
+        return response.data;
+    } catch (error) {
+        console.error("Get users failed:", error);
         return null;
     }
 }

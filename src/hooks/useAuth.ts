@@ -11,8 +11,8 @@ export const useAuth = () => {
             const token = localStorage.getItem('accessToken');
             setIsAuthenticated(!!token);
             if (token) {
-                const permissions = await getPermissions(token);
-                setIsAdmin(permissions.isAdmin);
+                const permissions = await getPermissions();
+                setIsAdmin(permissions);
             }
         };
 
