@@ -5,6 +5,8 @@ interface InputFieldProps {
   type: string;
   value: string;
   onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  onBlur?: (event: ChangeEvent<HTMLInputElement>) => void;
+  onKeyPress?: (event: React.KeyboardEvent<HTMLInputElement>) => void;
   error?: string;
   required?: boolean;
   passwordVisible?: boolean;

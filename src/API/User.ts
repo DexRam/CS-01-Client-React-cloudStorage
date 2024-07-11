@@ -36,7 +36,7 @@ export const getPermissions = async () => {
     try {
         const response = await axios.get('/api/user/me/', {
         });
-        return response.data.isAdmin;
+        return response.data.is_admin;
     } catch (error) {
         console.error("Get permissions failed:", error);
         return null;

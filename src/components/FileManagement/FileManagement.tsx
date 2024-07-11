@@ -1,45 +1,49 @@
 import { FC, useEffect, useState } from "react";
-import { getUserFiles, uploadFiles, renameFile, deleteFile } from "../../API/Files";
-import {
-  handleDownload,
-  handleShare,
-} from "../File/FileHandling";
+import { File } from "../File/interfaces";
+import { getUserFiles, uploadFiles, renameFile, deleteFile, changeFileComment } from "../../API/Files";
+import { handleDownload, handleShare } from "../File/FileHandling";
 import { ContentContainer, ActionContainer } from "../UIComponents/Containers";
 import { ActionButton } from "../UIComponents/Actions";
 import Dropzone from "../File/Dropzone";
 import FileCard from "../File/FileCard";
 
+
 const FileManagement: FC = () => {
-  const [files, setFiles] = useState<any[]>([]);
-
+  const [files, setFiles] = useState<File[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<Set<number>>(new Set());
-
-  const fetchFiles = async () => {
-    const files = await getUserFiles();
-    setFiles(files);
-  };
 
   useEffect(() => {
     fetchFiles();
   }, []);
 
-  const handleFileUpload = async (files: FileList) => {
-    await uploadFiles(files);
-    fetchFiles()
+  const fetchFiles = async () => {
+    const fetchedFiles = await getUserFiles();
+    setFiles(fetchedFiles);
+
   };
 
-  const handleRename = async (fileid: number, newName: string) => {
-    await renameFile(fileid, newName);
-    fetchFiles()
-  }
+  const handleFileUpload = async (files: FileList) => {
+    await uploadFiles(files);
+    fetchFiles();
+  };
 
-  const handleDelete = async (fileid: number) => {
-    await deleteFile(fileid);
-    fetchFiles()
-  }
+  const handleRename = async (fileId: number) => {
+    const newName = "New name"
+    await renameFile(fileId, newName);
+    fetchFiles();
+  };
+
+  const handleDelete = async (fileId: number) => {
+    await deleteFile(fileId);
+    fetchFiles();
+  };
+
+  const handleSaveComment = async (fileId: number, newComment: string) => {
+    await changeFileComment(fileId, newComment);
+  };
 
   const toggleFileSelection = (fileId: number) => {
-    setSelectedFiles((prevSelectedFiles) => {
+    setSelectedFiles(prevSelectedFiles => {
       const updatedSelection = new Set(prevSelectedFiles);
       if (updatedSelection.has(fileId)) {
         updatedSelection.delete(fileId);
@@ -81,7 +85,7 @@ const FileManagement: FC = () => {
           ))}
         </ActionContainer>
         <div className="flex flex-wrap">
-          {files.map((file) => (
+          {files.map(file => (
             <FileCard
               key={file.id}
               file={file}
@@ -91,6 +95,7 @@ const FileManagement: FC = () => {
               onRename={handleRename}
               onDelete={handleDelete}
               onShare={handleShare}
+              onSaveComment={handleSaveComment}
               showCheckbox
             />
           ))}

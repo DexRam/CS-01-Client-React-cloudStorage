@@ -1,7 +1,7 @@
 import axios from "./axiosConfig";
 
-export const getUserFiles = async () => {
-    const response = await axios.post("/api/file/userFiles/");
+export const getUserFiles = async (id?: number) => {
+    const response = await axios.post("/api/file/userFiles/", { id: id });
     return response.data;
 }
 
@@ -57,6 +57,17 @@ export const deleteFile = async (fileId: number) => {
         return response.data;
     } catch (error) {
         console.error("File deletion failed:", error);
+        return null;
+    }
+}
+
+export const changeFileComment = async (fileId: number, newComment: string) => {
+    try {
+        const response = await axios.patch(`/api/file/${fileId}/`, { comment: newComment });
+        console.log(response.data)
+        return response.data;
+    } catch (error) {
+        console.error("File comment changing failed:", error);
         return null;
     }
 }
