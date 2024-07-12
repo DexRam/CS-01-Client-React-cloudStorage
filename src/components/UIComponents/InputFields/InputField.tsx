@@ -18,6 +18,8 @@ const InputField: FC<InputFieldProps> = ({
   type,
   value,
   onChange,
+  onBlur,
+  onKeyPress,
   error,
   required = false,
   passwordVisible,
@@ -42,6 +44,8 @@ const InputField: FC<InputFieldProps> = ({
         }
         value={value}
         onChange={onChange}
+        onBlur={onBlur}
+        onKeyPress={onKeyPress}
         className={`p-2 border rounded focus:outline-none focus:ring cursor-pointer ${getInputBorderClass()}`}
         required={required}
       />

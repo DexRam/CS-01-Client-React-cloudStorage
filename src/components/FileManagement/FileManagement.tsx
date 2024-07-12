@@ -1,7 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { File } from "../File/interfaces";
-import { getUserFiles, uploadFiles, renameFile, deleteFile, changeFileComment } from "../../API/Files";
-import { handleDownload, handleShare } from "../File/FileHandling";
+import { getUserFiles, downloadFile, uploadFiles, renameFile, deleteFile, changeFileComment } from "../../API/Files";
 import { ContentContainer, ActionContainer } from "../UIComponents/Containers";
 import { ActionButton } from "../UIComponents/Actions";
 import Dropzone from "../File/Dropzone";
@@ -22,6 +21,11 @@ const FileManagement: FC = () => {
 
   };
 
+  const handleDownload = async (fileId: number) => {
+    await downloadFile(fileId)
+    fetchFiles()
+  }
+
   const handleFileUpload = async (files: FileList) => {
     await uploadFiles(files);
     fetchFiles();
@@ -32,6 +36,11 @@ const FileManagement: FC = () => {
     await renameFile(fileId, newName);
     fetchFiles();
   };
+
+  const handleShare = async (fileid: number) => {
+    console.log(`Sharing file ${fileid}`)
+
+  }
 
   const handleDelete = async (fileId: number) => {
     await deleteFile(fileId);

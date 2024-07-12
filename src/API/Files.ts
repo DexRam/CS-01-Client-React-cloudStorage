@@ -28,7 +28,14 @@ export const uploadFiles = async (files: FileList) => {
 }
 
 export const downloadFile = async (fileId: number) => {
-    console.log(`Downloading file ${fileId} `)
+    try {
+        const response = await axios.get(`/api/file/${fileId}/download`);
+        console.log(response)
+        return response.data;
+    } catch (error) {
+        console.error("File downloading failed:", error);
+        return null;
+    }
 }
 
 export const renameFile = async (fileId: number, newName: string) => {
@@ -64,7 +71,6 @@ export const deleteFile = async (fileId: number) => {
 export const changeFileComment = async (fileId: number, newComment: string) => {
     try {
         const response = await axios.patch(`/api/file/${fileId}/`, { comment: newComment });
-        console.log(response.data)
         return response.data;
     } catch (error) {
         console.error("File comment changing failed:", error);
