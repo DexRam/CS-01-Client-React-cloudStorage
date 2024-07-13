@@ -12,8 +12,8 @@ interface FileCardProps {
     isSelected: boolean;
     showCheckbox: boolean;
     onToggleSelect: (fileId: number) => void;
-    onDownload: (fileId: number) => void;
-    onRename: (fileId: number) => void;
+    onSaveName: (fileId: number, name: string) => void;
+    onDownload: (fileId: number, filename: string) => void;
     onDelete: (fileId: number) => void;
     onShare: (fileId: number) => void;
     onSaveComment: (fileId: number, comment: string) => void;

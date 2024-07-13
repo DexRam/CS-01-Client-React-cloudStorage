@@ -31,7 +31,7 @@ const Register: FC = () => {
       <div className="max-w-96">
         <CardContainer>
           <CardHeader title="Register" />
-          <FormContainer handleSubmit={handleSubmit}>
+          <FormContainer handleSubmit={(event) => handleSubmit(event, true)}>
             {inputFieldProps.map((props, index) => (
               <InputField key={index} {...props} />
             ))}

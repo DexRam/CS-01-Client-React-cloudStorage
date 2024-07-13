@@ -1,27 +1,13 @@
-import { FC, ChangeEvent, useState } from "react";
-import { ActionButton } from "../Actions";
-import { InputField } from "../InputFields";
+import { FC } from "react";
 
 interface ModalProps {
-    label: string;
-    content: string;
-    onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-    onClose: () => void;
-    onSave: () => void;
+    children: React.ReactNode;
 }
 
-const Modal: FC<ModalProps> = ({ label, onClose, onSave }) => {
-    const [content, setContent] = useState<string>("");
-
-    const handleContentChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setContent(event.target.value);
-    }
-
+const Modal: FC<ModalProps> = ({ children }) => {
     return (
-        <div className={"flex flex-col items-center justify-center min-h-screen w-screen bg-gradient-to-r from-blue-500 to-teal-500"}>
-            <InputField label={label} type="text" value={content} onChange={handleContentChange} />
-            <ActionButton onClick={onClose} color={"bg-red-500"} hoverColor={"bg-red-600"}>Close</ActionButton>
-            <ActionButton onClick={onSave} color={"bg-green-500"} hoverColor={"bg-green-600"}>Save</ActionButton>
+        <div className="fixed inset-0 flex flex-col items-center justify-center z-50">
+            {children}
         </div>
     );
 };

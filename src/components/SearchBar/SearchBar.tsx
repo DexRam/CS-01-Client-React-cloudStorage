@@ -8,7 +8,7 @@ const SearchBar: FC = () => {
   };
 
   const handleSearch = (): void => {
-    console.log("Search query:", query);
+    ("Search query:", query);
   };
 
   const inputClassNames = "w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring focus:border-blue-300";

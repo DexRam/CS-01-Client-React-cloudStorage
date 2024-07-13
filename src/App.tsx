@@ -16,16 +16,14 @@ import { Navigation } from "./components/Navigation";
 const App: FC = () => (
   <PermissionsProvider>
     <Router>
-      <div className="flex flex-col items-center justify-center min-h-screen min-w-screen">
-        <Navigation />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/fileManagement" element={<FileManagement />} />
-          <Route path="/admin" element={<Admin />} />
-        </Routes>
-      </div>
+      <Navigation />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/fileManagement" element={<FileManagement />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
     </Router>
   </PermissionsProvider>
 );

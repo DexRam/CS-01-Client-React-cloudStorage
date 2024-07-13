@@ -47,7 +47,7 @@ const Navigation = () => {
     });
 
     return (
-        <nav className="flex justify-center items-center w-full px-4 mt-2 mb-4">
+        <nav className="flex justify-center items-center px-4 mt-2 mb-4">
             <div className="flex">
                 {filteredRoutes.map(({ path, label }) => (
                     <NavLink
@@ -64,14 +64,16 @@ const Navigation = () => {
                     </NavLink>
                 ))}
             </div>
-            {isAuthenticated && (
-                <button
-                    onClick={handleLogout}
-                    className="mx-2 text-red-500 hover:text-red-700"
-                >
-                    Log Out
-                </button>
-            )}
+            {
+                isAuthenticated && (
+                    <button
+                        onClick={handleLogout}
+                        className="mx-2 text-red-500 hover:text-red-700"
+                    >
+                        Log Out
+                    </button>
+                )
+            }
         </nav>
     );
 };

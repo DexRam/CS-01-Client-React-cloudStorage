@@ -14,7 +14,7 @@ const ActionButton: FC<ActionButtonProps> = ({
   children,
 }) => (
   <button
-    className={`${color} text-white py-2 px-4 mx-1 mt-4 rounded hover:${hoverColor} transition duration-300`}
+    className={`text-white py-2 px-4 mx-1 mt-4 rounded ${color} hover:${hoverColor} transition duration-300`}
     onClick={(event) => {
       event.stopPropagation();
       onClick();

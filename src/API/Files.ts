@@ -27,18 +27,24 @@ export const uploadFiles = async (files: FileList) => {
     }
 }
 
-export const downloadFile = async (fileId: number) => {
+export const downloadFile = async (fileId: number, filename: string) => {
     try {
-        const response = await axios.get(`/api/file/${fileId}/download`);
-        console.log(response)
-        return response.data;
+        const response = await axios.get(`/api/file/${fileId}/download`, { responseType: 'blob' });
+
+        const url = URL.createObjectURL(response.data);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', filename);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
     } catch (error) {
         console.error("File downloading failed:", error);
-        return null;
     }
 }
 
-export const renameFile = async (fileId: number, newName: string) => {
+export const changeFileName = async (fileId: number, newName: string) => {
     try {
         const response = await axios.patch(`/api/file/${fileId}/`, { name: newName });
         return response.data;
@@ -48,9 +54,9 @@ export const renameFile = async (fileId: number, newName: string) => {
     }
 }
 
-export const shareFile = async (fileId: number, username: string) => {
+export const shareFile = async (fileId: number) => {
     try {
-        const response = await axios.post(`/api/file/${fileId}/share/`, { username: username });
+        const response = await axios.post(`/api/file/${fileId}/share/`);
         return response.data;
     } catch (error) {
         console.error("File sharing failed:", error);

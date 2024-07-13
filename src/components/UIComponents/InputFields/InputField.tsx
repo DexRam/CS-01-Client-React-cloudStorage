@@ -46,7 +46,7 @@ const InputField: FC<InputFieldProps> = ({
         onChange={onChange}
         onBlur={onBlur}
         onKeyPress={onKeyPress}
-        className={`p-2 border rounded focus:outline-none focus:ring cursor-pointer ${getInputBorderClass()}`}
+        className={`text-center p-2 border rounded focus:outline-none focus:ring cursor-pointer ${getInputBorderClass()}`}
         required={required}
       />
       {setPasswordVisible && (

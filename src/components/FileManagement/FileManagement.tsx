@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from "react";
 import { File } from "../File/interfaces";
-import { getUserFiles, downloadFile, uploadFiles, renameFile, deleteFile, changeFileComment } from "../../API/Files";
+import { getUserFiles, downloadFile, uploadFiles, changeFileComment, changeFileName, shareFile, deleteFile } from "../../API/Files";
 import { ContentContainer, ActionContainer } from "../UIComponents/Containers";
 import { ActionButton } from "../UIComponents/Actions";
 import Dropzone from "../File/Dropzone";
@@ -18,11 +18,10 @@ const FileManagement: FC = () => {
   const fetchFiles = async () => {
     const fetchedFiles = await getUserFiles();
     setFiles(fetchedFiles);
-
   };
 
-  const handleDownload = async (fileId: number) => {
-    await downloadFile(fileId)
+  const handleDownload = async (fileId: number, filename: string) => {
+    await downloadFile(fileId, filename)
     fetchFiles()
   }
 
@@ -31,15 +30,14 @@ const FileManagement: FC = () => {
     fetchFiles();
   };
 
-  const handleRename = async (fileId: number) => {
-    const newName = "New name"
-    await renameFile(fileId, newName);
+  const handleSaveName = async (fileId: number, newName: string) => {
+    await changeFileName(fileId, newName);
     fetchFiles();
   };
 
   const handleShare = async (fileid: number) => {
-    console.log(`Sharing file ${fileid}`)
-
+    await shareFile(fileid)
+    fetchFiles();
   }
 
   const handleDelete = async (fileId: number) => {
@@ -49,6 +47,7 @@ const FileManagement: FC = () => {
 
   const handleSaveComment = async (fileId: number, newComment: string) => {
     await changeFileComment(fileId, newComment);
+    fetchFiles();
   };
 
   const toggleFileSelection = (fileId: number) => {
@@ -93,22 +92,20 @@ const FileManagement: FC = () => {
             </ActionButton>
           ))}
         </ActionContainer>
-        <div className="flex flex-wrap">
-          {files.map(file => (
-            <FileCard
-              key={file.id}
-              file={file}
-              isSelected={selectedFiles.has(file.id)}
-              onToggleSelect={toggleFileSelection}
-              onDownload={handleDownload}
-              onRename={handleRename}
-              onDelete={handleDelete}
-              onShare={handleShare}
-              onSaveComment={handleSaveComment}
-              showCheckbox
-            />
-          ))}
-        </div>
+        {files.map(file => (
+          <FileCard
+            key={file.id}
+            file={file}
+            isSelected={selectedFiles.has(file.id)}
+            onToggleSelect={toggleFileSelection}
+            onSaveName={handleSaveName}
+            onDownload={handleDownload}
+            onDelete={handleDelete}
+            onShare={handleShare}
+            onSaveComment={handleSaveComment}
+            showCheckbox
+          />
+        ))}
       </ContentContainer>
     </Dropzone>
   );
