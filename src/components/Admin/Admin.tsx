@@ -1,5 +1,4 @@
 import { FC, useEffect, useState } from 'react';
-import { SearchBar } from '../SearchBar';
 import { getUsers, toggleUserRole, deleteUser } from '../../API/User';
 import { User } from '../User/interfaces';
 import UserCard from '../User/UserCard';
@@ -10,7 +9,6 @@ import { ActionSubmit } from "../UIComponents/Actions";
 import { ActionButton } from "../UIComponents/Actions";
 import { Modal } from "../UIComponents/Modals";
 import { useRegisterForm } from "../Register/useRegisterForm";
-import { redirect } from 'react-router-dom';
 
 const Admin: FC = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -63,7 +61,6 @@ const Admin: FC = () => {
   return (
     <div className={`${isModalOpen ? "opacity-75" : ""}`}>
       <ContentContainer>
-        <SearchBar />
         <ActionContainer>
           <ActionButton
             onClick={toggleModal}
