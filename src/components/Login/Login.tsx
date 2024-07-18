@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { useAuthRedirect } from "../../hooks/useAuthRedirect";
+import { useUserContext } from "../../contexts/UserContext";
 import { ContentContainer, CardContainer, FormContainer } from "../UIComponents/Containers";
 import { CardHeader } from "../UIComponents/Cards";
 import { InputField } from "../UIComponents/InputFields";
@@ -8,7 +9,8 @@ import useLoginForm from "./useLoginForm";
 
 
 const Login: FC = () => {
-  useAuthRedirect('/fileManagement');
+  const userContext = useUserContext();
+  useAuthRedirect(`/fileManagement/${userContext.userId}`);
 
   const {
     state: { username, password, errors, isFormValid },

@@ -1,4 +1,5 @@
 import { FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { getUsers, toggleUserRole, deleteUser } from '../../API/User';
 import { User } from '../User/interfaces';
 import UserCard from '../User/UserCard';
@@ -13,6 +14,7 @@ import { useRegisterForm } from "../Register/useRegisterForm";
 const Admin: FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const navigate = useNavigate();
 
   const fetchUsers = async () => {
     const usersData = await getUsers();
@@ -34,7 +36,7 @@ const Admin: FC = () => {
   };
 
   const handleManageUserFiles = (userId: number) => {
-    console.log(`Manage user files: ${userId}`)
+    navigate(`/fileManagement/${userId}`);
     fetchUsers();
   };
 

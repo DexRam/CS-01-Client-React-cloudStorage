@@ -1,3 +1,4 @@
+import { useParams } from "react-router-dom";
 import { FC, useEffect, useState } from "react";
 import { File } from "../File/interfaces";
 import { getUserFiles, downloadFile, uploadFiles, changeFileComment, changeFileName, shareFile, deleteFile } from "../../API/Files";
@@ -7,7 +8,10 @@ import Dropzone from "../File/Dropzone";
 import FileCard from "../File/FileCard";
 
 
+
 const FileManagement: FC = () => {
+  const { userId } = useParams();
+  const userIdNumber = Number(userId);
   const [files, setFiles] = useState<File[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<Set<number>>(new Set());
 
@@ -16,7 +20,7 @@ const FileManagement: FC = () => {
   }, []);
 
   const fetchFiles = async () => {
-    const fetchedFiles = await getUserFiles();
+    const fetchedFiles = await getUserFiles(userIdNumber);
     setFiles(fetchedFiles);
   };
 
@@ -25,13 +29,8 @@ const FileManagement: FC = () => {
     fetchFiles()
   }
 
-  const handleFileUpload = async (files: FileList) => {
-    await uploadFiles(files);
-    fetchFiles();
-  };
-
-  const handleSaveName = async (fileId: number, newName: string) => {
-    await changeFileName(fileId, newName);
+  const handleUpload = async (files: FileList) => {
+    await uploadFiles(userIdNumber, files);
     fetchFiles();
   };
 
@@ -42,6 +41,11 @@ const FileManagement: FC = () => {
 
   const handleDelete = async (fileId: number) => {
     await deleteFile(fileId);
+    fetchFiles();
+  };
+
+  const handleSaveName = async (fileId: number, newName: string) => {
+    await changeFileName(fileId, newName);
     fetchFiles();
   };
 
@@ -83,7 +87,7 @@ const FileManagement: FC = () => {
   ];
 
   return (
-    <Dropzone onFilesAdded={handleFileUpload}>
+    <Dropzone onFilesAdded={handleUpload}>
       <ContentContainer>
         <ActionContainer>
           {actionButtons.map(({ label, onClick, color, hoverColor }, index) => (

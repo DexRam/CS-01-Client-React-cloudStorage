@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
-import { getPermissions } from '../API/User';
-import { usePermissions } from '../contexts/PermissionsContext';
+import { getMe } from '../API/User';
+import { useUserContext } from '../contexts/UserContext';
 
 export const useAuth = () => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
-    const { setIsAdmin } = usePermissions();
+    const { setIsAdmin, setUserId } = useUserContext();
 
     useEffect(() => {
         const checkAuth = async () => {
             const token = localStorage.getItem('accessToken');
             setIsAuthenticated(!!token);
             if (token) {
-                const permissions = await getPermissions();
-                setIsAdmin(permissions);
+                const me = await getMe();
+                setIsAdmin(me.is_admin);
+                setUserId(me.id);
             }
         };
 

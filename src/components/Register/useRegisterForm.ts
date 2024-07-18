@@ -1,6 +1,6 @@
 import { useReducer, useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { validateUsername, validateFullname, validateEmail, validatePassword } from "../Additional/validators";
-import { createUser } from "../../API/User";
+import { register } from "../../API/User";
 
 export interface RegisterForm {
     username: string;
@@ -86,7 +86,7 @@ export const useRegisterForm = () => {
     const handleSubmit = async (event: FormEvent, redirect: boolean) => {
         event.preventDefault();
         if (state.isFormValid) {
-            const registerResult = await createUser(state, redirect);
+            const registerResult = await register(state, redirect);
             if (registerResult) {
                 alert(registerResult);
             }

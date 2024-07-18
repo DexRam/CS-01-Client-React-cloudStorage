@@ -1,18 +1,19 @@
 import axios from "./axiosConfig";
 
-export const getUserFiles = async (id?: number) => {
-    const response = await axios.post("/api/file/userFiles/", { id: id });
+export const getUserFiles = async (id: number) => {
+    const response = await axios.post("/api/file/user-files/", { id: id });
     return response.data;
 }
 
-export const uploadFiles = async (files: FileList) => {
+export const uploadFiles = async (id: number, files: FileList) => {
     try {
         const uploadPromises = Array.from(files).map(file => {
             const formData = new FormData();
             formData.append('file', file);
             formData.append('name', file.name);
+            formData.append('id', id.toString());
 
-            return axios.post('/api/file/', formData, {
+            return axios.post('/api/file/upload-file/', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -29,7 +30,7 @@ export const uploadFiles = async (files: FileList) => {
 
 export const downloadFile = async (fileId: number, filename: string) => {
     try {
-        const response = await axios.get(`/api/file/${fileId}/download`, { responseType: 'blob' });
+        const response = await axios.get(`/api/file/${fileId}/download-file/`, { responseType: 'blob' });
 
         const url = URL.createObjectURL(response.data);
         const link = document.createElement('a');
@@ -41,22 +42,14 @@ export const downloadFile = async (fileId: number, filename: string) => {
         URL.revokeObjectURL(url);
     } catch (error) {
         console.error("File downloading failed:", error);
-    }
-}
-
-export const changeFileName = async (fileId: number, newName: string) => {
-    try {
-        const response = await axios.patch(`/api/file/${fileId}/`, { name: newName });
-        return response.data;
-    } catch (error) {
-        console.error("File rename failed:", error);
         return null;
     }
 }
 
+
 export const shareFile = async (fileId: number) => {
     try {
-        const response = await axios.post(`/api/file/${fileId}/share/`);
+        const response = await axios.post(`/api/file/${fileId}/share-file/`);
         return response.data;
     } catch (error) {
         console.error("File sharing failed:", error);
@@ -66,7 +59,7 @@ export const shareFile = async (fileId: number) => {
 
 export const deleteFile = async (fileId: number) => {
     try {
-        const response = await axios.delete(`/api/file/${fileId}/`);
+        const response = await axios.delete(`/api/file/${fileId}/delete-file/`);
         return response.data;
     } catch (error) {
         console.error("File deletion failed:", error);
@@ -74,9 +67,19 @@ export const deleteFile = async (fileId: number) => {
     }
 }
 
+export const changeFileName = async (fileId: number, newName: string) => {
+    try {
+        const response = await axios.patch(`/api/file/${fileId}/update-file/`, { name: newName });
+        return response.data;
+    } catch (error) {
+        console.error("File rename failed:", error);
+        return null;
+    }
+}
+
 export const changeFileComment = async (fileId: number, newComment: string) => {
     try {
-        const response = await axios.patch(`/api/file/${fileId}/`, { comment: newComment });
+        const response = await axios.patch(`/api/file/${fileId}/update-file/`, { comment: newComment });
         return response.data;
     } catch (error) {
         console.error("File comment changing failed:", error);

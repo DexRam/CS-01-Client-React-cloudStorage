@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { PermissionsProvider } from "./contexts/PermissionsContext";
+import { UserContextProvider } from "./contexts/UserContext";
 import {
   BrowserRouter as Router,
   Routes,
@@ -14,18 +14,18 @@ import { Navigation } from "./components/Navigation";
 
 
 const App: FC = () => (
-  <PermissionsProvider>
+  <UserContextProvider>
     <Router>
       <Navigation />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/fileManagement" element={<FileManagement />} />
+        <Route path="/fileManagement/:userId" element={<FileManagement />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>
     </Router>
-  </PermissionsProvider>
+  </UserContextProvider>
 );
 
 export default App;

@@ -1,5 +1,6 @@
 import { FC } from "react";
 import { useAuthRedirect } from "../../hooks/useAuthRedirect";
+import { useUserContext } from "../../contexts/UserContext";
 import { ContentContainer, CardContainer, FormContainer } from "../UIComponents/Containers";
 import { CardHeader } from "../UIComponents/Cards";
 import { InputField } from "../UIComponents/InputFields";
@@ -7,8 +8,8 @@ import { ActionSubmit } from "../UIComponents/Actions";
 import { useRegisterForm } from "./useRegisterForm";
 
 const Register: FC = () => {
-
-  useAuthRedirect('/fileManagement');
+  const userContext = useUserContext();
+  useAuthRedirect(`/fileManagement/${userContext.userId}`);
 
   const {
     state: { username, fullname: fullname, email, password, errors, isFormValid },

@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { usePermissions } from "../../contexts/PermissionsContext";
+import { useUserContext } from "../../contexts/UserContext";
 import { Home } from "../Home";
 import { Register } from "../Register";
 import { Login } from "../Login";
@@ -13,18 +13,21 @@ interface Route {
     label: string;
 }
 
-const routesConfig: Route[] = [
-    { path: "/", element: <Home />, label: "Home" },
-    { path: "/register", element: <Register />, label: "Register" },
-    { path: "/login", element: <Login />, label: "Login" },
-    { path: "/fileManagement", element: <FileManagement />, label: "File Management" },
-    { path: "/admin", element: <Admin />, label: "Admin" },
-];
+
 
 const Navigation = () => {
+
     const isAuthenticated = useAuth();
-    const { isAdmin } = usePermissions();
+    const { isAdmin, userId } = useUserContext();
     const navigate = useNavigate();
+
+    const routesConfig: Route[] = [
+        { path: "/", element: <Home />, label: "Home" },
+        { path: "/register", element: <Register />, label: "Register" },
+        { path: "/login", element: <Login />, label: "Login" },
+        { path: `/fileManagement/${userId}`, element: <FileManagement />, label: "File Management" },
+        { path: "/admin", element: <Admin />, label: "Admin" },
+    ];
 
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
@@ -41,7 +44,7 @@ const Navigation = () => {
             return route.path !== "/register" && route.path !== "/login" && route.path !== "/";
         }
         if (!isAuthenticated) {
-            return route.path !== "/fileManagement" && route.path !== "/admin";
+            return route.path !== `/fileManagement/${userId}` && route.path !== "/admin";
         }
         return true;
     });

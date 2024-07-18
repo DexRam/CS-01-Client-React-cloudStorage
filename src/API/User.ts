@@ -2,6 +2,17 @@ import axios from "./axiosConfig";
 import { RegisterForm } from "../components/Register/useRegisterForm";
 import { LoginForm } from "../components/Login/useLoginForm";
 
+export const getMe = async () => {
+    try {
+        const response = await axios.get('/api/user/me/', {
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Get me failed:", error);
+        return null;
+    }
+}
+
 export const getUsers = async () => {
     try {
         const response = await axios.get('/api/user/');
@@ -23,9 +34,9 @@ export const toggleUserRole = async (id: number) => {
         return null;
     }
 }
-export const createUser = async (state: RegisterForm, redirect?: boolean) => {
+export const register = async (state: RegisterForm, redirect?: boolean) => {
     try {
-        const response = await axios.post('/api/user/', state);
+        const response = await axios.post('/api/user/register/', state);
         (response)
         if (response.status === 201 && redirect) {
             loginUser(state);
@@ -49,16 +60,6 @@ export const loginUser = async (state: LoginForm) => {
     }
 };
 
-export const getPermissions = async () => {
-    try {
-        const response = await axios.get('/api/user/me/', {
-        });
-        return response.data.is_admin;
-    } catch (error) {
-        console.error("Get permissions failed:", error);
-        return null;
-    }
-}
 
 export const deleteUser = async (id: number) => {
     try {

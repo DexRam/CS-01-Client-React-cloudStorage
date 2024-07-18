@@ -1,11 +1,13 @@
 import { FC } from "react";
 import { useAuthRedirect } from "../../hooks/useAuthRedirect";
+import { useUserContext } from '../../contexts/UserContext';
 import { ContentContainer, ActionContainer, CardContainer } from "../UIComponents/Containers";
 import { CardHeader, CardBody } from "../UIComponents/Cards";
 import { ActionLink } from "../UIComponents/Actions";
 
 const Home: FC = () => {
-  useAuthRedirect('/fileManagement');
+  const userContext = useUserContext();
+  useAuthRedirect(`/fileManagement/${userContext.userId}`);
   return (
     <ContentContainer>
       <CardContainer>
