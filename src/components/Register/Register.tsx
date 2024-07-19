@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useAuthRedirect } from "../../hooks/useAuthRedirect";
-import { useUserContext } from "../../contexts/UserContext";
+import { useUserContext } from '../../contexts/useUserContext';
 import { ContentContainer, CardContainer, FormContainer } from "../UIComponents/Containers";
 import { CardHeader } from "../UIComponents/Cards";
 import { InputField } from "../UIComponents/InputFields";

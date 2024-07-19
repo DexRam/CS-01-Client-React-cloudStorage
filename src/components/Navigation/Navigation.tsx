@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
-import { useUserContext } from "../../contexts/UserContext";
+import { useUserContext } from '../../contexts/useUserContext';
 import { Home } from "../Home";
 import { Register } from "../Register";
 import { Login } from "../Login";

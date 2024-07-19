@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getMe } from '../API/User';
-import { useUserContext } from '../contexts/UserContext';
+import { useUserContext } from '../contexts/useUserContext';
 
 export const useAuth = () => {
     const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
@@ -24,7 +24,7 @@ export const useAuth = () => {
         return () => {
             window.removeEventListener('storage', checkAuth);
         };
-    }, [setIsAdmin]);
+    }, [setIsAdmin, setUserId]);
 
     return isAuthenticated;
 };

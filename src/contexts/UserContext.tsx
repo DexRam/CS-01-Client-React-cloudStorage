@@ -1,6 +1,6 @@
-import { createContext, useContext, useState, ReactNode, FC } from 'react';
+import { createContext, ReactNode, FC, useState } from 'react';
 
-interface UserContextProps {
+export interface UserContextProps {
     isAdmin: boolean;
     setIsAdmin: (access: boolean) => void;
     userId: number;
@@ -9,11 +9,7 @@ interface UserContextProps {
 
 export const UserContext = createContext<UserContextProps | undefined>(undefined);
 
-interface UserContextProviderProps {
-    children: ReactNode;
-}
-
-export const UserContextProvider: FC<UserContextProviderProps> = ({ children }) => {
+export const UserContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [isAdmin, setIsAdmin] = useState<boolean>(false);
     const [userId, setUserId] = useState<number>(0);
 
@@ -22,12 +18,4 @@ export const UserContextProvider: FC<UserContextProviderProps> = ({ children }) 
             {children}
         </UserContext.Provider>
     );
-};
-
-export const useUserContext = () => {
-    const context = useContext(UserContext);
-    if (context === undefined) {
-        throw new Error('useUserContext must be used within a UserContextProvider');
-    }
-    return context;
 };

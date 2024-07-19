@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { FC, useEffect, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import { File } from "../File/interfaces";
 import { getUserFiles, downloadFile, uploadFiles, changeFileComment, changeFileName, shareFile, deleteFile } from "../../API/Files";
 import { ContentContainer, ActionContainer } from "../UIComponents/Containers";
@@ -15,19 +15,22 @@ const FileManagement: FC = () => {
   const [files, setFiles] = useState<File[]>([]);
   const [selectedFiles, setSelectedFiles] = useState<Set<number>>(new Set());
 
-  useEffect(() => {
-    fetchFiles();
-  }, []);
-
-  const fetchFiles = async () => {
+  const fetchFiles = useCallback(async () => {
     const fetchedFiles = await getUserFiles(userIdNumber);
     setFiles(fetchedFiles);
-  };
+  }, [userIdNumber]);
 
-  const handleDownload = async (fileId: number, filename: string) => {
-    await downloadFile(fileId, filename)
-    fetchFiles()
-  }
+  useEffect(() => {
+    fetchFiles();
+  }, [fetchFiles]);
+
+  const handleDownload = async (fileId: number) => {
+    const file = files.find(f => f.id === fileId);
+    if (file) {
+      await downloadFile(fileId, file.name);
+      fetchFiles();
+    }
+  };
 
   const handleUpload = async (files: FileList) => {
     await uploadFiles(userIdNumber, files);

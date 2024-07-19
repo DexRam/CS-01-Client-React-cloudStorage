@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { useAuthRedirect } from "../../hooks/useAuthRedirect";
-import { useUserContext } from '../../contexts/UserContext';
+import { useUserContext } from '../../contexts/useUserContext';
 import { ContentContainer, ActionContainer, CardContainer } from "../UIComponents/Containers";
 import { CardHeader, CardBody } from "../UIComponents/Cards";
 import { ActionLink } from "../UIComponents/Actions";
