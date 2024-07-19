@@ -10,7 +10,7 @@ const UserCard: FC<UserCardProps> = ({
     onToggleUserRole,
     onManageUserFiles,
 }) => {
-    const { id, username, email, fullname, is_admin } = user;
+    const { id, username, email, fullname, is_admin, files_count, files_size } = user;
     (user)
 
     const actionButtons = [
@@ -41,6 +41,8 @@ const UserCard: FC<UserCardProps> = ({
             <CardBody text={`Email: ${email}`} />
             <CardBody text={`Fullmane: ${fullname}`} />
             <CardBody text={`is_admin: ${is_admin}`} />
+            <CardBody text={`Files count: ${files_count}`} />
+            <CardBody text={`Files size: ${files_size}`} />
             {actionButtons.map((button, index) => (
                 <ActionButton
                     key={index}

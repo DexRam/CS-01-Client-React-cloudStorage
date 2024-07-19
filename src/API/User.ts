@@ -23,6 +23,16 @@ export const getUsers = async () => {
     }
 }
 
+export const getUserStats = async (id: number) => {
+    try {
+        const response = await axios.get(`/api/user/${id}/user-stats/`);
+        return response.data;
+    } catch (error) {
+        console.error("Get user stats failed:", error);
+        return null;
+    }
+}
+
 export const toggleUserRole = async (id: number) => {
     try {
         const { data: user } = await axios.get(`/api/user/${id}/`);

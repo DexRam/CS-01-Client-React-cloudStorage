@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getUsers, toggleUserRole, deleteUser } from '../../API/User';
+import { getUsers, getUserStats, toggleUserRole, deleteUser } from '../../API/User';
 import { User } from '../User/interfaces';
 import UserCard from '../User/UserCard';
 import { ContentContainer, CardContainer, FormContainer, ActionContainer } from "../UIComponents/Containers";
@@ -16,33 +16,40 @@ const Admin: FC = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const fetchUsers = async () => {
+  const fetchUsersWithStats = async () => {
     const usersData = await getUsers();
-    setUsers(usersData);
+    const statsPromises = usersData.map((user: User) => getUserStats(user.id));
+    const statsResults = await Promise.all(statsPromises);
+    const usersWithStats = usersData.map((user: User, index: number) => ({
+      ...user,
+      files_count: statsResults[index]?.total_files || 0,
+      files_size: statsResults[index]?.total_size || 0
+    }));
+    setUsers(usersWithStats);
   };
 
   useEffect(() => {
-    fetchUsers();
+    fetchUsersWithStats();
   }, []);
 
   const toggleRole = async (userId: number) => {
     await toggleUserRole(userId);
-    fetchUsers();
+    fetchUsersWithStats();
   };
 
   const handleDeleteUser = async (userId: number) => {
     await deleteUser(userId)
-    fetchUsers();
+    fetchUsersWithStats();
   };
 
   const handleManageUserFiles = (userId: number) => {
     navigate(`/fileManagement/${userId}`);
-    fetchUsers();
+    fetchUsersWithStats();
   };
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen)
-    fetchUsers();
+    fetchUsersWithStats();
   };
 
   const {
