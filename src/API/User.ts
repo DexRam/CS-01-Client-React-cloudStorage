@@ -44,7 +44,7 @@ export const toggleUserRole = async (id: number) => {
         return null;
     }
 }
-export const register = async (state: RegisterForm, redirect?: boolean) => {
+export const registerUser = async (state: RegisterForm, redirect?: boolean) => {
     try {
         const response = await axios.post('/api/user/register/', state);
         (response)

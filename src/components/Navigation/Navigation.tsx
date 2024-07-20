@@ -18,7 +18,7 @@ interface Route {
 const Navigation = () => {
 
     const isAuthenticated = useAuth();
-    const { isAdmin, userId } = useUserContext();
+    const { isAdmin, setIsAdmin, userId, setUserId } = useUserContext();
     const navigate = useNavigate();
 
     const routesConfig: Route[] = [
@@ -32,8 +32,10 @@ const Navigation = () => {
     const handleLogout = () => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
+        setIsAdmin(false);
+        setUserId(0);
         window.dispatchEvent(new Event('storage'));
-        navigate('/login');
+        navigate('/');
     };
 
     const filteredRoutes = routesConfig.filter(route => {
