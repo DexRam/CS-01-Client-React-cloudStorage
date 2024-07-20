@@ -11,7 +11,7 @@ export const uploadFiles = async (id: number, files: FileList) => {
             const formData = new FormData();
             formData.append('file', file);
             formData.append('name', file.name);
-            formData.append('id', id.toString());
+            formData.append('owner', id.toString());
 
             return axios.post('/api/file/upload-file/', formData, {
                 headers: {
